@@ -1,16 +1,12 @@
 # Plot Readlength Distributions
 
 ## Load R Module and Install Packages
+You only have to install packages once
 ```bash
 module use /storage/icds/RISE/sw8/modules/r 
 module load r/4.2.1-gcc-8.5.0
 
-Rscript -e "options(repos = c(CRAN = 'https://cloud.r-project.org')); install.packages('ggplot2', lib='/storage/group/zps5164/default/bin/.R')"
-
-Rscript -e "options(repos = c(CRAN = 'https://cloud.r-project.org')); install.packages('tidyverse', lib='/storage/group/zps5164/default/bin/.R')"
-
-Rscript -e "options(repos = c(CRAN = 'https://cloud.r-project.org')); install.packages('ggpubr', dependencies=TRUE, lib='/storage/group/zps5164/default/bin/.R')"
-
+Rscript -e "options(repos = c(CRAN = 'https://cloud.r-project.org')); install.packages('ggplot2', lib='/storage/group/dut374/default/bin/.R')"
 ```
 
 ## Create R Script
@@ -21,19 +17,19 @@ nano $scripts_folder/plots/plot_readlengths.R
 #!/usr/bin/env Rscript
 
 # CALL PACKAGES
-library(ggpubr, lib.loc='/storage/group/zps5164/default/bin/.R')
-library(ggplot2, lib.loc='/storage/group/zps5164/default/bin/.R')
-library(tidyverse, lib.loc='/storage/group/zps5164/default/bin/.R')
+library(ggplot2, lib.loc=lib='/storage/group/dut374/default/bin/.R')
 
 # IMPORT DATA
-ids <- c(183194841, 183195312, 183195332,
-         183194861,183195321, 183195304, 183195326)
+ids <- c("L_atlanticus_BBIP_2_S1", "L_atlanticus_BBIP_3_S2", "L_atlanticus_BBIP_4_S3", "L_atlanticus_BBIP_5_S4", "L_atlanticus_BBIP_6_S5",
+"L_atlanticus_SBJO_38_S6", "L_atlanticus_SBJO_39_S7", "L_atlanticus_SBJO_40_S8", 
+ "L_atlanticus_SBJO_41_S9", "L_atlanticus_SBJO_42_S10",  "L_atlanticus_SJVE_56_S11", "L_atlanticus_SJVE_57_S12", "L_atlanticus_SJVE_58_S13",  "L_atlanticus_SJVE_59_S14", "L_atlanticus_SJVE_60_S15")
 
-base_path <- "/storage/home/abc6435/SzpiechLab/abc6435/KROH/data/seq_stats/"
+base_path <- "/storage/group/dut374/default/helaina/data/seq_stats/"
 
-readlengths <- lapply(ids, function(id) {
-    read.delim(paste0(base_path, id, "_readlength.txt"), header = FALSE)
-})
+readlengths <- lapply(ids, function(id) {read.delim(paste0(base_path, id, "_readlength.txt"), header = FALSE)})
+
+###DEBUG THIS ^^ (try doing this in srun)
+
 
 names(readlengths) <- paste0("readlength_", ids)
 
