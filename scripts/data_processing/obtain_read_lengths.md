@@ -33,6 +33,6 @@ for i in `cat $scripts_folder/ids.txt`; do samtools view $data_folder/bam/${i}.b
 
 ## Download to Local Machine
 ```bash
-rsync abc6435@submit.hpc.psu.edu:/storage/home/abc6435/SzpiechLab/abc6435/KROH/data/seq_stats/*.txt /Users/abc6435/Desktop/KROH/data/seq_stats
+rsync hdl5108@submit.hpc.psu.edu:/storage/group/dut374/default/helaina/data/seq_stats/test_readlength.txt /Users/hdl5108/desktop/olrogs_gull/data
 ```
 
