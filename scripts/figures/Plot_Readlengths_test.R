@@ -7,8 +7,8 @@ library(ggplot2)
 range(test_readlengths)
 # Create a histogram of a numeric column in your data
 ggplot(data = test_readlengths, aes(x = read_length)) +
-  geom_histogram(binwidth = 20, fill = "#8739ea", color = "black") +
+  geom_histogram(binwidth = 30, fill = "#8739ea", color = "black") +
   labs(title = "Sample 1",
        x = "Read Length (bp)",
        y = "Frequency") +
-scale_x_continuous(breaks = seq(50, 350, by = 50))
+scale_x_continuous(breaks = seq(60, 300, by = 30))
