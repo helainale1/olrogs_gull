@@ -160,7 +160,7 @@ plot_SJVE_59_S14 <- ggplot(SJVE_59_S14_readlength, aes(x = V1)) +
        y = "Frequency") +
 scale_x_continuous(breaks = seq(60, 300, by = 30))
 
-plots_SJVE_60_S15 <- ggplot(SJVE_60_S15_readlength, aes(x = V1)) +
+plot_SJVE_60_S15 <- ggplot(SJVE_60_S15_readlength, aes(x = V1)) +
   geom_histogram(binwidth = 30, fill = "#8739ea", color = "black") +
   labs(title = "L_atlanticus_SJVE_60_S15",
        x = "Read Length (bp)",
