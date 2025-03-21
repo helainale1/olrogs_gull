@@ -1,8 +1,44 @@
 ## Filtering
 I followed a similar filtering protocol as in Wood et al. 2023 for the Bachman's ROH analysis. 
+
+## Testing filters
+```bash
+## Set variables
+work_dir="/storage/group/dut374/default/helaina/data/vcf"
+
+#load modules
+module use /storage/group/dut374/default/sw/modules
+module load all
+
+cd /storage/group/dut374/default/helaina/data/vcf 
+
+bcftools view -h olrogs.vcf.gz >> test.vcf
+
+bcftools view -H olrogs.vcf.gz | head -1000 >> test.vcf
+
+#Add All Tags
+bcftools +fill-tags -Oz $work_dir/test.vcf -o $work_dir/test_tags.vcf -- -t all
+
+#Biallelic Sites
+bcftools view -m2 -M2 -v snps $work_dir/test_tags.vcf -Oz -o $work_dir/test_tags_bi.vcf
+
+#Quality
+bcftools filter -e 'QUAL<20' $work_dir/test_tags_bi.vcf.gz -Oz -o $work_dir/test_tags_bi_qual.vcf.gz
+
+#Depth
+bcftools filter -e 'INFO/DP<6' $work_dir/test_tags_bi_qual.vcf.gz -Oz -o $work_dir/test_tags_bi_qual_dp.vcf.gz
+
+#Missing Sites
+bcftools view -i 'N_MISSING<3' $work_dir/test_tags_bi_qual_dp.vcf.gz -Oz -o $work_dir/test_tags_bi_qual_dp_nmiss.vcf.gz
+
+#Excess Heterozygosity (>80%)
+bcftools view -i 'COUNT(GT="het")>=12' $work_dir/test_tags_bi_qual_dp_nmiss.vcf.gz -Oz -o $work_dir/test_tags_bi_qual_dp_nmiss_exhet.vcf.gz
+```
+
+
 ```bash
 #Set Variables
-scripts_folder="/storage/home/abc6435/SzpiechLab/abc6435/KROH/scripts"
+scripts_folder="/storage/group/dut374/default/helaina/scripts"
 nano $scripts_folder/filter_variants_KIWA.bash
 #!/bin/bash
 #SBATCH --nodes=1
@@ -14,7 +50,7 @@ nano $scripts_folder/filter_variants_KIWA.bash
 #SBATCH --error=/storage/home/abc6435/SzpiechLab/abc6435/KROH/job_err_output/%x.%j.out
 
 #Set Variables
-work_dir="/storage/home/abc6435/SzpiechLab/abc6435/KROH/data/vcf"
+work_dir="/storage/group/dut374/default/helaina/data/vcf"
 
 #Add All Tags
 bcftools +fill-tags -Oz $work_dir/KIWA.vcf.gz -o $work_dir/KIWA_tags.vcf.gz -- -t all
