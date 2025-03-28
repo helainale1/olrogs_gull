@@ -7,6 +7,7 @@ salloc --nodes 1 --ntasks 1 --mem=50G --time=9:00:00
 data="/storage/home/abc6435/SzpiechLab/abc6435/KROH/data"
 vcf="KIWA_tags_e759877_bi_qual_dp_nmiss_exhet_auto_maf.vcf.gz"
 shared="/storage/home/abc6435/SzpiechLab/shared"
+garlic="/storage/group/dut374/default/bin/garlic/bin/linux/garlic"
 
 #.tped and .tfam
 plink --vcf $data/vcf/$vcf --recode transpose --double-id --chr-set 30 --allow-extra-chr --out $data/roh/garlic/KIWA
