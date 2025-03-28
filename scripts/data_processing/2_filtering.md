@@ -44,4 +44,16 @@ bcftools view -i 'COUNT(GT="het")>=12' $work_dir/olrogs_tags_bi_qual_dp_nmiss.vc
 #Rename chromosomes
 bcftools annotate --rename-chrs $work_dir/chrs.txt -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet.vcf.gz
 
+#Remove chrZ
+bcftools index $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz
+
+
+awk '{print $2}' $work_dir/chrs.txt | tr '\n' ',' | sed 's/,$//' > chr_list.txt
+chrs_list=$(cat chr_list.txt)
+bcftools view -r $chrs_list $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz
+
+cd $work_dir/
+vcf="olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz"
+bcftools query -f '%CHROM' $vcf | less -S | uniq
 ```
+ 
