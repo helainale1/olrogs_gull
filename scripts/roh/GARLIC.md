@@ -4,15 +4,15 @@
 ```bash
 salloc --nodes 1 --ntasks 1 --mem=50G --time=9:00:00 
 #Set Variables
-data="/storage/home/abc6435/SzpiechLab/abc6435/KROH/data"
-vcf="KIWA_tags_e759877_bi_qual_dp_nmiss_exhet_auto_maf.vcf.gz"
+data="/storage/group/dut374/default/helaina/data"
+vcf="olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz"
 shared="/storage/home/abc6435/SzpiechLab/shared"
 garlic="/storage/group/dut374/default/bin/garlic/bin/linux/garlic"
 
 #.tped and .tfam
-plink --vcf $data/vcf/$vcf --recode transpose --double-id --chr-set 30 --allow-extra-chr --out $data/roh/garlic/KIWA
+plink --vcf $data/vcf/$vcf --recode transpose --double-id --chr-set 30 --allow-extra-chr --out $data/roh/garlic/olrogs
 
-awk '$1="kirtlandii"' $data/roh/garlic/KIWA.tfam > $data/roh/garlic/temp && mv -f $data/roh/garlic/temp $data/roh/garlic/KIWA.tfam
+awk '$1="l_atlanticus"' $data/roh/garlic/olrogs.tfam > $data/roh/garlic/temp && mv -f $data/roh/garlic/temp $data/roh/garlic/olrogs.tfam
 
 #.tgls
 $shared/create_tgls_from_vcf.py $data/vcf/$vcf > $data/roh/garlic/KIWA.tgls
