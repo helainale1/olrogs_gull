@@ -39,7 +39,7 @@ bcftools filter -e 'INFO/DP<6' $work_dir/olrogs_tags_bi_qual.vcf.gz -Oz -o $work
 bcftools view -i 'N_MISSING<3' $work_dir/olrogs_tags_bi_qual_dp.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss.vcf.gz
 
 #Excess Heterozygosity (>80%)
-bcftools view -i 'COUNT(GT="het")>=12' $work_dir/olrogs_tags_bi_qual_dp_nmiss.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet.vcf.gz
+bcftools view -i 'COUNT(GT="het")<=12' $work_dir/olrogs_tags_bi_qual_dp_nmiss.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet.vcf.gz
 
 #Rename chromosomes
 bcftools annotate --rename-chrs $work_dir/chrs.txt -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet.vcf.gz
@@ -51,9 +51,4 @@ awk '{print $2}' $work_dir/chrs.txt | tr '\n' ',' | sed 's/,$//' > chr_list.txt
 chrs_list=$(cat chr_list.txt)
 bcftools view -r $chrs_list $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz
 
-
-cd $work_dir/
-vcf="olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz"
-bcftools query -f '%CHROM' $vcf | less -S | uniq
 ```
- 
