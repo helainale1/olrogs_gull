@@ -34,19 +34,19 @@ garlic_tool="/storage/group/dut374/default/bin/garlic/bin/linux/garlic"
 $garlic_tool --auto-winsize --auto-overlap-frac --winsize 100 --tped $work_dir/olrogs.tped --tfam $work_dir/olrogs.tfam --tgls $work_dir/olrogs.tgls --gl-type GQ --resample 40 --centromere $centromere --size-bounds 1000000 2000000 3000000 4000000 5000000 --out $work_dir/olrogs
 
 #Remove any ROH < 0.5MB
-cat $work_dir/KIWA.roh.bed  | awk -F '\t' '$5>500000 || /track/ {print$0}' > $work_dir/KIWA_0.5MB.roh.bed
+cat $work_dir/olrogs.roh.bed  | awk -F '\t' '$5>500000 || /track/ {print$0}' > $work_dir/olrogs_0.5MB.roh.bed
 ```
 
 ## ROH Summary
 ```bash
 #Set Variables
-work_dir="/storage/home/abc6435/SzpiechLab/abc6435/KROH/data/roh/garlic"
+work_dir="/storage/group/dut374/default/helaina/data/roh/garlic"
 shared="/storage/home/abc6435/SzpiechLab/shared"
 
 #Create ID File
-sed 's/ /\t/g' $work_dir/KIWA.tfam | cut -f1,2 >> $work_dir/ids.txt
+sed 's/ /\t/g' $work_dir/olrogs.tfam | cut -f1,2 >> $work_dir/ids.txt
 awk '{print $2, $1}' $work_dir/ids.txt > $work_dir/temp && mv -f $work_dir/temp $work_dir/ids.txt
 
 #Calculate ROH Fractions
-$shared/calculate_ROH_fractions.pl $work_dir/KIWA.roh.bed 6 $work_dir/ids.txt > $work_dir/KIWA_roh_sum.txt
-$shared/calculate_ROH_fractions.pl $work_dir/KIWA_0.5MB.roh.bed 6 $work_dir/ids.txt > $work_dir/KIWA_roh_sum_0.5MB.txt
+$tgls_script/calculate_ROH_fractions.pl $work_dir/olrogs.roh.bed 6 $work_dir/ids.txt > $work_dir/olrogs_roh_sum.txt
+$tgls_script/calculate_ROH_fractions.pl $work_dir/olrogs_0.5MB.roh.bed 6 $work_dir/ids.txt > $work_dir/olrogs_roh_sum_0.5MB.txt
