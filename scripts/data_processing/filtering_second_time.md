@@ -32,37 +32,29 @@ bcftools view -m2 -M2 -v snps $work_dir/olrogs_tags.vcf.gz -Oz -o $work_dir/olro
 #Quality
 bcftools filter -e 'QUAL<20' $work_dir/olrogs_tags_bi.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual.vcf.gz
 
-#Depth
-bcftools filter -e 'INFO/DP<6' $work_dir/olrogs_tags_bi_qual.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp.vcf.gz
-
-#Missing Sites
-bcftools view -i 'N_MISSING<3' $work_dir/olrogs_tags_bi_qual_dp.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss.vcf.gz
+#Genotype: Missing
+bcftools view -e \
+    'N_MISSING>3' \
+    $work_dir/olrogs_tags_bi_qual.vcf.gz \
+    -Oz -o $work_dir/olrogs_tags_bi_qual_nmiss.vcf.gz
 
 #Excess Heterozygosity (>80%)
-bcftools view -i 'COUNT(GT="het")<=12' $work_dir/olrogs_tags_bi_qual_dp_nmiss.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet.vcf.gz
+bcftools view -i 'COUNT(GT="het")<=12' $work_dir/olrogs_tags_bi_qual_nmiss.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_nmiss_exhet.vcf.gz
 
 #Rename chromosomes
-bcftools annotate --rename-chrs $work_dir/chrs.txt -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet.vcf.gz
+bcftools annotate --rename-chrs $work_dir/chrs.txt -Oz -o $work_dir/olrogs_tags_bi_qual_nmiss_exhet_renamed.vcf.gz $work_dir/olrogs_tags_bi_qual_nmiss_exhet.vcf.gz
 
 #Remove chrZ
-bcftools index $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz
+bcftools index $work_dir/olrogs_tags_bi_qual_nmiss_exhet_renamed.vcf.gz
 
 awk '{print $2}' $work_dir/chrs.txt | tr '\n' ',' | sed 's/,$//' > chr_list.txt
 chrs_list=$(cat chr_list.txt)
-bcftools view -r $chrs_list $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz
+bcftools view -r $chrs_list $work_dir/olrogs_tags_bi_qual_nmiss_exhet_renamed.vcf.gz -Oz -o $work_dir/olrogs_tags_bi_qual_nmiss_exhet_renamed_auto.vcf.gz
+```
 
 #Genotype: Read Depth and Genotype Quality
 bcftools filter \
     -e 'FORMAT/DP < 10 || FORMAT/GQ < 20' \
     --set-GTs . \
-    $work_dir/olrogs_tags_auto_bi.vcf.gz \
-    -Oz -o $work_dir/olrogs_tags_auto_bi_rd_gq.vcf.gz
-
-#Genotype: Missing
-bcftools view -e \
-    'N_MISSING>3' \
-    $work_dir/olrogs_tags_auto_bi_rd_gq.vcf.gz \
-    -Oz -o $work_dir/olrogs_tags_auto_bi_rd_gq_nmiss.vcf.gz
-
-#Genotype: Excess Heterozygosity 
-```
+    $work_dir/olrogs_tags_bi_qual.vcf.gz \
+    -Oz -o $work_dir/olrogs_tags_bi_qual_dp_gq.vcf.gz
