@@ -5,7 +5,7 @@
 salloc --nodes 1 --ntasks 1 --mem=50G --time=9:00:00 
 #Set Variables
 data="/storage/group/dut374/default/helaina/data"
-vcf="olrogs_tags_bi_qual_dp_nmiss_exhet_renamed_auto.vcf.gz"
+vcf="olrogs_tags_bi_qual_nmiss_exhet_renamed_auto.vcf.gz"
 garlic="/storage/group/dut374/default/bin/garlic/bin/linux/garlic"
 tgls_script="/storage/group/dut374/default/bin/garlic" 
 
