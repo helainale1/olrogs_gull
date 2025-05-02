@@ -16,6 +16,9 @@ roh_summary$pop <- NULL
 #create new data frame
 nroh_sroh <- roh_summary[, c("samples", "nTOTAL", "TOTAL")]
 
+#adding group column
+nroh_sroh$group <- sub("_.*", "", nroh_sroh$samples)
+
 #Create a Scatter plot 
 library(ggplot2)
 
@@ -26,7 +29,7 @@ ggplot(nroh_sroh, aes(x = TOTAL / 1000000, y = nTOTAL, color = group)) +  # Scal
        x = "TOTAL (in millions)",  # Adjust X-axis label to reflect scale
        y = "nTOTAL (hundreds)",  # Y-axis stays the same
        color = "Group") +
-  scale_color_manual(values = c("BBIP" = "#817fc7", "SBJO" = "#fe829b", "SJVE" = "#40e0d0")) +  # Custom colors
+  scale_color_manual(values = c("BBIP" = "#61bab8", "SBJO" = "#deef7f", "SJVE" = "#faa56f")) +  # Custom colors
   theme_light()
 
 

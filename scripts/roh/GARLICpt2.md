@@ -54,3 +54,6 @@ awk '{print $2, $1}' $work_dir/ids.txt > $work_dir/temp && mv -f $work_dir/temp 
 #Calculate ROH Fractions
 $tgls_script/calculate_ROH_fractions.pl $work_dir/olrogs.roh.bed 6 $work_dir/ids.txt > $work_dir/olrogs_roh_sum.txt
 $tgls_script/calculate_ROH_fractions.pl $work_dir/olrogs_0.5MB.roh.bed 6 $work_dir/ids.txt > $work_dir/olrogs_roh_sum_0.5MB.txt
+
+#Downloading file in local terminal (entered in the local)
+rsync hdl5108@submit.hpc.psu.edu:/storage/group/dut374/default/helaina/data/roh/garlic/olrogs_roh_sum_0.5MB.txt /Users/hdl5108/desktop/olrogs_gull/data
