@@ -26,8 +26,8 @@ ggplot(nroh_sroh, aes(x = TOTAL / 1000000, y = nTOTAL, color = group)) +  # Scal
   geom_point(size = 4) +
   geom_abline(slope = 1, intercept = 0, linetype = "solid", color = "black") +  # Add x = y line
   labs(title = "ROH",
-       x = "TOTAL (in millions)",  # Adjust X-axis label to reflect scale
-       y = "nTOTAL (hundreds)",  # Y-axis stays the same
+       x = "TOTAL (in millions of bp)",  # Adjust X-axis label to reflect scale
+       y = "nTOTAL",  # Y-axis stays the same
        color = "Group") +
   scale_color_manual(values = c("BBIP" = "#61bab8", "SBJO" = "#deef7f", "SJVE" = "#faa56f")) +  # Custom colors
   theme_light()
